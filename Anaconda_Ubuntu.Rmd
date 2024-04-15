@@ -13,7 +13,7 @@ sudo apt update
 
 - Note that Ubuntu 23.xx up comes with python preinstalled (to the best of my knowledge). I believe run something like:
 ```{bash}
-python --version 
+python3 --version 
 #exit()
 ```
 
@@ -89,13 +89,14 @@ shasum -a 256 Anaconda3-2024.02-1-Linux-x86_64.sh #check integrity
 bash Anaconda3-2024.02-1-Linux-x86_64.sh
 #follow some prompts and install to Home location in linux equivalent to Documents in windows
 source ~/.bashrc #term refresh
+source ~/anaconda3/etc/profile.d/conda.sh
 conda --version
 ```
 
 ### config 
 
 ```{bash}
-source ~/anaconda3/bin/activate #~ = /home/swaggyt/...
+source ~/anaconda3/bin/activate #~ = /home/swaggyt/
 conda init
 ```
 
@@ -114,6 +115,8 @@ anaconda-navigator
 ## fix libgl error- troubleshoot
 
 ```{bash}
+export CONDA_SRC=~/anaconda3/etc/profile.d/conda.sh
+source $CONDA_SRC #OR source ~/anaconda3/etc/profile.d/conda.sh
 conda install -c conda-forge libffi #foreign function interface == fix
 conda update libstdcxx-ng #no need to run
 cd ~/anaconda3/lib; ls -al | grep libstdc++
@@ -157,7 +160,10 @@ export pre_reload=/usr/lib64/ld-linux-x86-64.so.2 #the file does not exist here 
 export TEMP_ENV={ "key" : "json example" } 
 export TEMP_ENV=[1,2 ,3 ]
 env #see all env variables (conda is of interest here)
+printenv | less
+printenv CONDA_SRC
 env | grep pre_reload #see the env variable
+echo $CONDA_SRC
 unset pre_reload #remove the env variable
 ```
 
